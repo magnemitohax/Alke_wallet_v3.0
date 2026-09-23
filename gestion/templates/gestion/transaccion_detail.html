@@ -1,0 +1,15 @@
+{% extends "gestion/base.html" %}
+{% block title %}Transacción #{{ transaccion.pk }}{% endblock %}
+{% block content %}
+<h1>{{ transaccion.get_tipo_display }} — ${{ transaccion.monto }}</h1>
+<p>Cuenta origen: {{ transaccion.cuenta_origen.numero_cuenta }}</p>
+<p>Cuentas relacionadas:
+    {% for c in transaccion.cuentas_relacionadas.all %}{{ c.numero_cuenta }}{% if not forloop.last %}, {% endif %}{% empty %}Ninguna{% endfor %}
+</p>
+<p>Descripción: {{ transaccion.descripcion|default:"-" }}</p>
+<p>Fecha: {{ transaccion.fecha }}</p>
+
+<a class="btn" href="{% url 'transaccion_update' transaccion.pk %}">Editar</a>
+<a class="btn btn-danger" href="{% url 'transaccion_delete' transaccion.pk %}">Eliminar</a>
+<a href="{% url 'transaccion_list' %}">Volver al listado</a>
+{% endblock %}

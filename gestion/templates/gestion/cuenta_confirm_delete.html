@@ -1,0 +1,10 @@
+{% extends "gestion/base.html" %}
+{% block title %}Eliminar cuenta{% endblock %}
+{% block content %}
+<h1>¿Eliminar la cuenta "{{ object.numero_cuenta }}"?</h1>
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Confirmar eliminación</button>
+    <a href="{% url 'cuenta_list' %}">Cancelar</a>
+</form>
+{% endblock %}

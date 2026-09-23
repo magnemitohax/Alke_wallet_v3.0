@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Base de datos de desarrollo
+db.sqlite3
+
+# Configuración local / secretos
+.env
+
+# Editor
+.vscode/

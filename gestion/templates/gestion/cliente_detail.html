@@ -1,0 +1,22 @@
+{% extends "gestion/base.html" %}
+{% block title %}{{ cliente.nombre }}{% endblock %}
+{% block content %}
+<h1>{{ cliente.nombre }}</h1>
+<p>Email: {{ cliente.email }}</p>
+<p>RUT: {{ cliente.rut }}</p>
+<p>Teléfono: {{ cliente.telefono|default:"-" }}</p>
+<p>Alta: {{ cliente.fecha_alta }}</p>
+
+<h2>Cuentas</h2>
+<ul>
+    {% for cuenta in cliente.cuentas.all %}
+        <li><a href="{% url 'cuenta_detail' cuenta.pk %}">{{ cuenta.numero_cuenta }} — {{ cuenta.get_tipo_display }} — ${{ cuenta.saldo }}</a></li>
+    {% empty %}
+        <li>Sin cuentas asociadas.</li>
+    {% endfor %}
+</ul>
+
+<a class="btn" href="{% url 'cliente_update' cliente.pk %}">Editar</a>
+<a class="btn btn-danger" href="{% url 'cliente_delete' cliente.pk %}">Eliminar</a>
+<a href="{% url 'cliente_list' %}">Volver al listado</a>
+{% endblock %}

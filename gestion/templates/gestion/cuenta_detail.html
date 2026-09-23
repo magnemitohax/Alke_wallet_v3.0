@@ -1,0 +1,24 @@
+{% extends "gestion/base.html" %}
+{% block title %}{{ cuenta.numero_cuenta }}{% endblock %}
+{% block content %}
+<h1>Cuenta {{ cuenta.numero_cuenta }}</h1>
+<p>Cliente: <a href="{% url 'cliente_detail' cuenta.cliente.pk %}">{{ cuenta.cliente.nombre }}</a></p>
+<p>Tipo: {{ cuenta.get_tipo_display }}</p>
+<p>Saldo: ${{ cuenta.saldo }}</p>
+<p>Activa: {{ cuenta.activa|yesno:"Sí,No" }}</p>
+
+<h2>Movimientos</h2>
+<ul>
+    {% for t in cuenta.transacciones.all %}
+        <li>{{ t.get_tipo_display }} — ${{ t.monto }} — {{ t.fecha|date:"d/m/Y H:i" }}</li>
+    {% empty %}
+        <li>Sin movimientos.</li>
+    {% endfor %}
+</ul>
+
+<a class="btn" href="{% url 'cuenta_ajustar_saldo' cuenta.pk %}">Depositar / retirar</a>
+<a class="btn" href="{% url 'cuenta_transferir' cuenta.pk %}">Transferir</a>
+<a class="btn" href="{% url 'cuenta_update' cuenta.pk %}">Editar</a>
+<a class="btn btn-danger" href="{% url 'cuenta_delete' cuenta.pk %}">Eliminar</a>
+<a href="{% url 'cuenta_list' %}">Volver al listado</a>
+{% endblock %}

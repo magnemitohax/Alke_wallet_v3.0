@@ -1,0 +1,10 @@
+{% extends "gestion/base.html" %}
+{% block title %}{% if object %}Editar cuenta{% else %}Nueva cuenta{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if object %}Editar cuenta{% else %}Nueva cuenta{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Guardar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "gestion/base.html" %}
+{% block title %}Transacciones{% endblock %}
+{% block content %}
+<h1>Transacciones</h1>
+<a class="btn" href="{% url 'transaccion_create' %}">+ Nueva transacción</a>
+<table>
+    <thead>
+        <tr><th>Tipo</th><th>Cuenta origen</th><th>Monto</th><th>Fecha</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for t in transacciones %}
+        <tr>
+            <td><a href="{% url 'transaccion_detail' t.pk %}">{{ t.get_tipo_display }}</a></td>
+            <td>{{ t.cuenta_origen.numero_cuenta }}</td>
+            <td>${{ t.monto }}</td>
+            <td>{{ t.fecha|date:"d/m/Y H:i" }}</td>
+            <td>
+                <a href="{% url 'transaccion_update' t.pk %}">Editar</a> |
+                <a href="{% url 'transaccion_delete' t.pk %}">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No hay transacciones registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if is_paginated %}
+<p>
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Siguiente</a>{% endif %}
+</p>
+{% endif %}
+{% endblock %}

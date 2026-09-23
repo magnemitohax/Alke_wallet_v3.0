@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Alke Wallet{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="{% url 'cliente_list' %}" class="brand">Alke Wallet</a>
+        <nav>
+            <a href="{% url 'cliente_list' %}">Clientes</a>
+            <a href="{% url 'cuenta_list' %}">Cuentas</a>
+            <a href="{% url 'transaccion_list' %}">Transacciones</a>
+            <a href="{% url 'reportes' %}">Reportes</a>
+            <a href="/admin/">Admin</a>
+            {% if user.is_authenticated %}
+                <span class="usuario">Hola, {{ user.username }}</span>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit">Salir</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Ingresar</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

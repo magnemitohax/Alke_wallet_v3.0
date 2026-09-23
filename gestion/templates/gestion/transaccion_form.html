@@ -1,0 +1,14 @@
+{% extends "gestion/base.html" %}
+{% block title %}{% if object %}Editar transacción{% else %}Nueva transacción{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if object %}Editar transacción{% else %}Nueva transacción{% endif %}</h1>
+<p>Este formulario solo crea o edita el registro de la transacción; no
+mueve saldo entre cuentas. Para depositar, extraer o transferir dinero de
+verdad, usar las opciones "Saldo" / "Transferir" desde el detalle de la
+cuenta.</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Guardar</button>
+</form>
+{% endblock %}

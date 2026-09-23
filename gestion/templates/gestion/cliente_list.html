@@ -1,0 +1,35 @@
+{% extends "gestion/base.html" %}
+{% block title %}Clientes{% endblock %}
+{% block content %}
+<h1>Clientes</h1>
+<a class="btn" href="{% url 'cliente_create' %}">+ Nuevo cliente</a>
+<table>
+    <thead>
+        <tr><th>Nombre</th><th>Email</th><th>RUT</th><th>Teléfono</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+        <tr>
+            <td><a href="{% url 'cliente_detail' cliente.pk %}">{{ cliente.nombre }}</a></td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.rut }}</td>
+            <td>{{ cliente.telefono|default:"-" }}</td>
+            <td>
+                <a href="{% url 'cliente_update' cliente.pk %}">Editar</a> |
+                <a href="{% url 'cliente_delete' cliente.pk %}">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No hay clientes cargados todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if is_paginated %}
+<p>
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Siguiente</a>{% endif %}
+</p>
+{% endif %}
+{% endblock %}
